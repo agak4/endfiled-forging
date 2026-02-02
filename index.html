@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>엔드필드 정밀단조 툴</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+	<link href="style.css" rel="stylesheet" type="text/css" />
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+    <div class="sidebar" id="sidebar">
+        </div>
+
+    <div class="main-view">
+        <div class="large-image-container">
+            <img id="mainImage" src="" alt="장비 이미지" class="large-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+            <div class="img-placeholder" style="display:none">NO IMAGE</div>
+        </div>
+    </div>
+
+    <div class="info-panel">
+        <div class="info-set-name">
+            <span id="detailSet">세트 이름</span> / <span id="detailCategory">분류</span>
+        </div>
+        <h1 class="info-title" id="detailName">장비 이름</h1>
+        
+        <div class="stat-box">
+            <div class="stat-row" id="row-stat1" onclick="filterByStat(1)">
+                <span class="stat-label" id="stat1Label">스탯 1</span>
+                <span class="stat-value" id="stat1Value">-</span>
+            </div>
+            
+            <div class="stat-row" id="row-stat2" onclick="filterByStat(2)">
+                <span class="stat-label" id="stat2Label">스탯 2</span>
+                <span class="stat-value" id="stat2Value">-</span>
+            </div>
+
+            <div class="stat-row" id="row-trait" onclick="filterByTrait()">
+                <span class="stat-label" id="traitLabel">특성</span>
+                <span class="stat-value" id="traitValue">-</span>
+            </div>
+        </div>
+
+        <div id="filterInfoArea" style="display:none;">
+            <div class="filter-info" id="filterMsg"></div>
+            <div class="legend">
+                <span><div class="dot" style="background:var(--accent)"></div> 선택됨</span>
+                <span><div class="dot" style="background:var(--good)"></div> 수치 높음</span>
+            </div>
+            <button class="filter-reset-btn" id="resetBtn" onclick="resetFilter()">필터 초기화</button>
+        </div>
+    </div>
+</body>
+</html>
