@@ -88,7 +88,19 @@ function init() {
         row.className = 'item-row';
         row.id = `item-${index}`;
         row.title = item.name;
-        row.onclick = () => selectItem(index);
+
+        // 모바일: 스크롤 오탐 방지 후 즉각 반응 (touch-action: manipulation과 조합)
+        let touchMoved = false;
+        row.addEventListener('touchstart', () => { touchMoved = false; }, { passive: true });
+        row.addEventListener('touchmove', () => { touchMoved = true; }, { passive: true });
+        row.addEventListener('touchend', (e) => {
+            if (!touchMoved) {
+                e.preventDefault();
+                selectItem(index);
+            }
+        });
+        // PC 환경 대응
+        row.addEventListener('click', () => selectItem(index));
 
         const img = document.createElement('img');
         img.className = 'item-thumb';
