@@ -8,28 +8,22 @@ let equipmentData = [];
  * @returns {Array<Object>} - 파싱된 객체 배열
  */
 function parseCSV(text) {
-    // 줄바꿈으로 행 분리 (\r\n 및 \n 대응)
-    const lines = text.split(/\r?\n/); 
+    const lines = text.split(/\r?\n/);
     if (lines.length < 2) return [];
 
-
-    // 단순 쉼표 기준으로 헤더 추출
     const headerLine = lines[0].trim();
     const headers = headerLine.split(',');
 
-    
     const results = [];
     for (let i = 1; i < lines.length; i++) {
         const line = lines[i].trim();
         if (!line) continue;
 
-        // 단순 쉼표 기준으로 데이터 추출
         const values = line.split(',');
 
         const item = {};
-        
+
         headers.forEach((header, index) => {
-            // 모든 데이터를 문자열로 취급
             item[header] = values[index] !== undefined ? values[index] : "";
         });
         results.push(item);
@@ -42,24 +36,19 @@ function parseCSV(text) {
  */
 async function loadEquipmentData() {
     try {
-        // fetch를 사용하여 root 경로의 CSV 파일 로드
         const response = await fetch('equipmentData.csv');
         if (!response.ok) {
             throw new Error(`CSV 파일을 불러오는 데 실패했습니다. 상태 코드: ${response.status}`);
         }
-        
+
         const csvText = await response.text();
-        
-        // CSV 파싱
+
         equipmentData = parseCSV(csvText);
-        
+
         if (equipmentData.length === 0) {
             throw new Error('파싱된 데이터가 없습니다.');
         }
-        
-        console.log('장비 데이터 로드 성공:', equipmentData.length, '개');
-        
-        // 데이터 로드 완료 후 기존 초기화 로직 실행
+
         init();
     } catch (error) {
         console.error('데이터 로딩 중 치명적 오류:', error);
@@ -88,7 +77,6 @@ function init() {
             header.textContent = `=== ${currentSet} ===`;
             setGroup.appendChild(header);
 
-            // 4열 그리드 컨테이너
             gridContainer = document.createElement('div');
             gridContainer.className = 'item-grid';
             setGroup.appendChild(gridContainer);
@@ -99,7 +87,7 @@ function init() {
         const row = document.createElement('div');
         row.className = 'item-row';
         row.id = `item-${index}`;
-        row.title = item.name; // 툴팁으로 이름 표시
+        row.title = item.name;
         row.onclick = () => selectItem(index);
 
         const img = document.createElement('img');
@@ -125,7 +113,6 @@ function selectItem(index) {
     currentItem = equipmentData[index];
     updateDetailView(currentItem);
 
-    // 개선점 3: 필터가 활성화된 상태라면, 새 아이템의 해당 스탯 위치를 찾아 하이라이트 갱신
     if (activeFilterContext) {
         syncFilterHighlight(currentItem);
     }
@@ -133,12 +120,10 @@ function selectItem(index) {
 
 // 스탯 하이라이트 동기화 함수
 function syncFilterHighlight(item) {
-    // 모든 하이라이트 제거 후 재검사
     document.querySelectorAll('.stat-row').forEach(row => row.classList.remove('active-filter'));
 
     const targetName = activeFilterContext.name;
 
-    // 현재 아이템의 스탯 중 필터 이름과 일치하는 곳 찾기
     if (item.s1 === targetName) {
         document.getElementById('row-stat1').classList.add('active-filter');
     } else if (item.s2 === targetName) {
@@ -146,7 +131,6 @@ function syncFilterHighlight(item) {
     } else if (item.t === targetName) {
         document.getElementById('row-trait').classList.add('active-filter');
     }
-    // 일치하는 스탯이 없으면 하이라이트 표시 안함 (필터 효과는 목록에 남아있음)
 }
 
 function updateDetailView(item) {
@@ -168,9 +152,6 @@ function updateDetailView(item) {
 
     document.getElementById('traitLabel').textContent = item.t;
     document.getElementById('traitValue').textContent = item.tv;
-
-
-
 
     document.getElementById('detailCategory').textContent = item.category || "부품";
 }
@@ -197,7 +178,6 @@ function filterByStat(statNum) {
 
     const targetVal = parseValue(targetStatValRaw);
 
-    // 컨텍스트 저장
     activeFilterContext = { name: targetStatName, value: targetVal, type: 'basic' };
 
     applyFilter((item) => {
@@ -207,7 +187,7 @@ function filterByStat(statNum) {
 
         return {
             match: maxVal >= targetVal,
-            exceed: maxVal > targetVal // 개선점 4: 초과 여부 확인
+            exceed: maxVal > targetVal
         };
     }, `${targetStatName} ${targetStatValRaw} 이상`);
 
@@ -268,8 +248,4 @@ function resetFilter() {
     activeFilterContext = null;
 }
 
-
-
 window.onload = loadEquipmentData;
-
-

@@ -1,12 +1,11 @@
-        /* 기본 스타일 설정 */
         :root {
             --bg-color: #121212;
             --sidebar-bg: #1e1e1e;
             --panel-bg: #252525;
             --text-main: #e0e0e0;
             --text-sub: #a0a0a0;
-            --accent: #FFD700; /* 골드 */
-            --good: #00FF7F;   /* 초록 (더 좋은 스탯) */
+            --accent: #FFD700;
+            --good: #00FF7F;
             --border: #333;
             --item-hover: #333;
             --item-selected: #444;
@@ -23,9 +22,8 @@
             display: flex;
         }
 
-        /* 1. 왼쪽 사이드바 (장비 목록 - 이미지 그리드) */
         .sidebar {
-            width: 340px; /* 4열을 위해 너비 약간 조정 */
+            width: 340px;
             background-color: var(--sidebar-bg);
             border-right: 1px solid var(--border);
             overflow-y: auto;
@@ -80,14 +78,12 @@
             box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
         }
 
-        /* 필터링 스타일 */
         .item-row.dimmed {
             opacity: 0.1;
             filter: grayscale(100%);
             pointer-events: none;
         }
 
-        /* 개선점 4: 수치가 더 높을 때 초록색 강조 */
         .item-row.exceed {
             border-color: var(--good);
             box-shadow: 0 0 8px rgba(0, 255, 127, 0.4);
@@ -121,10 +117,10 @@
             max-height: 400px;
             width: 100%;
             height: auto;
-            filter: drop-shadow(0 0 20px rgba(0,0,0,0.7));
+            filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.7));
             transition: transform 0.3s;
         }
-        
+
         .img-placeholder {
             width: 200px;
             height: 200px;
@@ -145,7 +141,7 @@
             padding: 40px 30px;
             display: flex;
             flex-direction: column;
-            box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
             overflow-y: auto;
         }
 
@@ -194,15 +190,23 @@
             border-color: var(--accent);
         }
 
-        .stat-label { font-size: 0.95rem; color: #ccc; }
-        .stat-value { font-size: 1.1rem; font-weight: bold; color: #fff; }
+        .stat-label {
+            font-size: 0.95rem;
+            color: #ccc;
+        }
+
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #fff;
+        }
 
         .filter-info {
             margin-top: 20px;
             padding: 10px;
             border-radius: 5px;
             font-size: 0.85rem;
-            background: rgba(0,0,0,0.2);
+            background: rgba(0, 0, 0, 0.2);
             min-height: 20px;
             color: var(--accent);
         }
@@ -214,8 +218,18 @@
             margin-top: 5px;
             color: #888;
         }
-        .legend span { display: flex; align-items: center; gap: 4px; }
-        .dot { width: 8px; height: 8px; border-radius: 50%; }
+
+        .legend span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
 
         .filter-reset-btn {
             margin-top: 20px;
@@ -229,29 +243,34 @@
             display: none;
             width: 100%;
         }
-        .filter-reset-btn:hover { background-color: #555; }
 
-        /* 개선점 2: 모바일 반응형 */
+        .filter-reset-btn:hover {
+            background-color: #555;
+        }
+
+        /* 모바일 반응형 */
         @media (max-width: 768px) {
             body {
                 flex-direction: column;
-                overflow-y: auto; /* 전체 스크롤 허용 */
+                overflow-y: auto;
                 height: auto;
             }
 
-            /* 순서 변경: 이미지(1) -> 스탯(2) -> 목록(3) */
             .main-view {
                 order: 1;
-                height: 300px; /* 이미지 영역 높이 고정 */
+                height: 300px;
                 flex-grow: 0;
                 background: #1a1a1a;
             }
-            .large-image { max-height: 250px; }
+
+            .large-image {
+                max-height: 250px;
+            }
 
             .info-panel {
                 order: 2;
                 width: 100%;
-                box-sizing: border-box; /* 패딩 포함 */
+                box-sizing: border-box;
                 border-left: none;
                 border-bottom: 1px solid var(--border);
                 padding: 20px;
@@ -262,20 +281,31 @@
                 order: 3;
                 width: 100%;
                 border-right: none;
-                height: auto; /* 내용만큼 늘어남 */
-                max-height: 500px; /* 너무 길어지지 않게 제한 */
+                height: auto;
+                max-height: 500px;
             }
 
             .item-grid {
                 grid-template-columns: repeat(4, 1fr);
             }
         }
-        
+
         @media (max-width: 480px) {
-             .item-grid { grid-template-columns: repeat(4, 1fr); }
+            .item-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
 
         /* 스크롤바 커스텀 */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #1e1e1e; }
-        ::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1e1e1e;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #444;
+            border-radius: 3px;
+        }
